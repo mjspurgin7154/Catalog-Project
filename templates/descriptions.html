@@ -1,0 +1,20 @@
+<!-- This html page lists the description of a specific catalog item.  To view this page, the user must be logged in to the catalog application and authorized to edit or delete this item.   -->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class = 'heading'>
+        <h2 text-decoration: underline>{{ item.name }} <span>( category: {{ cat.name }}</span>)</h2>
+        <p style="color:black">{{ item.desc }}</p>
+        <br>
+        <div class="navigation">
+            <a href="{{ url_for('editItem', cat_name=cat.name, item_name=item.name, edit=edit) }}">Edit Item</a><br>
+            <a href="{{ url_for('deleteItem', cat_name=cat.name, item_name=item.name, delete=delete) }}">Delete Item</a>
+        </div>
+        <br>
+        <div class='back_up'>
+            <a href="{{ url_for('catItemList', cat_name=cat.name) }}">Return to Category Item List</a>
+        </div>
+    </div>
+{% endblock %}

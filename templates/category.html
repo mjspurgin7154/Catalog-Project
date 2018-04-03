@@ -1,0 +1,19 @@
+<!-- This is the main html page listing the catalog category list along with the last item added to each category -->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class = 'category'>
+        <h2>{{ 'Categories' }}</h2>
+        {% for i in cats %}
+        <a href="{{ url_for('catItemList', cat_name=i.name) }}"><p>{{i.name}}</p></a>
+        {% endfor %}
+    </div>
+    <div class='latest_items'>
+        <h2>{{ 'Latest Items' }}</h2>
+        {% for i in last_item %}
+        <p>{{i.name}} <span style="color:gray">({{i.category.name}})</span></p>
+        {% endfor %}
+    </div>
+{% endblock %}

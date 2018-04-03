@@ -1,0 +1,18 @@
+<!-- This is the html form an authorized user would see when wanting to delete a catalog item they had previously added. -->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class='heading'>
+        <h1 text-decoration: underline> Are you sure you want to delete {{item.name}} from the {{cat_name}} category? </h1>
+        <div>
+            <form action="{{ url_for('deleteItem', cat_name = item.category.name, item_name = item.name)}}" method = 'post'>
+                <input type='submit', value = 'Delete'>
+            </form>
+        </div>
+    </div>
+    <nav>
+        <a href="{{url_for('catItemList', cat_name=item.category.name, item_name = item.name)}}">Cancel</a>
+    </nav>
+{% endblock %}

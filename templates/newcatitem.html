@@ -1,0 +1,22 @@
+<!-- This is the form an authenticated user would see when adding a new catalog item along with the description. -->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class ='heading'>
+        <h2 text-decoration: underline>New Category Item ({{cat.name}})</h2>
+        <div>
+            <form action="{{ url_for('newCatItem', cat_name=cat.name )}}" method="post">
+                <p>Name:</p>
+                <input type="text" size="30" name="name">
+                <p>Description:</p>
+                <input type="text" size="30" name="desc">
+                <input type="submit" value="Create">
+            </form>
+        </div>
+    </div>
+    <nav class='back_up'>
+        <a href="{{ url_for('catItemList', cat_name=cat.name) }}">Return to Category Item List</a>
+    </nav>
+{% endblock %}

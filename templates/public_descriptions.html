@@ -1,0 +1,15 @@
+<!-- This html page lists the description of a specific catalog item. -->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class = 'heading'>
+        <h2 text-decoration: underline>{{ item.name }} <span>( category: {{ cat.name }}</span>)</h2>
+        <p style="color:black">{{ item.desc }}</p>
+        <br>
+        <div class='back_up'>
+            <a href="{{ url_for('catItemList', cat_name=cat.name) }}">Return to Category Item List</a>
+        </div>
+    </div>
+{% endblock %}

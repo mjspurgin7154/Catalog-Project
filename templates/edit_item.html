@@ -1,0 +1,20 @@
+<!-- This is the html form an authorized user would see when wanting to revise a catalog items name and/or description. -->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class='heading'>
+        <h2>Edit Category Item</h2>
+        <div>
+            <form action="{{ url_for('editItem', cat_name = item.category.name, item_name = item_name)}}" method="post">
+                <p>Name:</p>
+                    <input type ='text' size='30' name='name' placeholder = '{{item.name }}'>
+                <p>Description:</p>
+                    <input type ='text' size='30' name='desc' placeholder = '{{item.desc}}'>
+                <input type="submit" value="Edit">
+            </form>
+            <a href="{{url_for('catItemList', cat_name = item.category.name)}}">Cancel</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!-- This is the primary html file all other html files extend from here. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - Catalog </title>
+    <script>{% block script %}{% endblock %}</script>
+    {% endblock %}
+</head>
+    <body>
+        <div class = 'wrapper'>
+            <mainheader class = 'mainheader'>
+                <h1 class = 'title'>Catalog App</h1>
+                <nav class="button" style="align-self: center">
+                    {% if not session.email %}
+                        <button class='login' type="button" onclick="window.location.href='{{ url_for( 'login' ) }}'">login
+                        </button>
+                    {% else %}
+                        <button class='logout' type="button" onclick="window.location.href='{{ url_for( 'gdisconnect' ) }}'">logout
+                        </button>
+                    {% endif %}
+                </nav>
+            </mainheader>
+            <main class = 'content'>
+                {% block content %}{% endblock %}
+            </main>
+            <footer class='mainfooter'>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                        {% for message in messages %}
+                        <li> <strong> {{ message }} </strong></li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </footer>
+        </div>
+    </body>
+</html>

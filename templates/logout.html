@@ -1,0 +1,12 @@
+<!-- This page notifies the user they have logged out and returns them to the main catalog page. -->
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<script>
+    setTimeout(function() {
+                      window.location.href = "/catalog";
+                     }, 4000);
+</script>
+{% endblock %}
