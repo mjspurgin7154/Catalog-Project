@@ -8,9 +8,9 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-class User(Base):
-    """Class for table named 'user'"""
-    __tablename__ = 'user'
+class Users(Base):
+    """Class for table named 'users'"""
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key = True)
     name = Column(String(80), nullable = False)
@@ -23,8 +23,8 @@ class Category(Base):
 
     id = Column(Integer, primary_key = True)
     name = Column(String(80), nullable = False)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship("User", backref=backref("category", order_by=id))
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship("Users", backref=backref("category", order_by=id))
 
     @property
     def serialize(self):
@@ -42,8 +42,8 @@ class Item(Base):
     name = Column(String(80))
     dateadded = Column(Date)
     desc = Column(String(250))
-    user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship("User", backref=backref("item", order_by=id))
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship("Users", backref=backref("item", order_by=id))
     cat_id = Column(Integer, ForeignKey('category.id'))
     category = relationship("Category", backref=backref("item", order_by=id))
 

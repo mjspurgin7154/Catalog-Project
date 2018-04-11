@@ -2,7 +2,7 @@
 # -*- coding: utf-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Category, Item, User
+from db_setup import Base, Category, Item, Users
 from random import randint
 import datetime
 import random
@@ -99,7 +99,7 @@ user_list = [
     ]
 
 for elem in user_list:
-    newUser = User(name=elem[0], email=elem[1])
+    newUser = Users(name=elem[0], email=elem[1])
     session.add(newUser)
     session.commit()
 

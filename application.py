@@ -2,7 +2,7 @@ import datetime
 from flask import Flask, render_template, url_for, request, redirect, flash
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Category, Item, User
+from db_setup import Base, Category, Item, Users
 from flask import session as login_session
 import random
 import string
@@ -89,7 +89,7 @@ def gconnect():
     if result['issued_to'] != CLIENT_ID:
         response = make_response(
             json.dumps("Token's client ID does not match app's."), 401)
-        print ("Token's client ID does not match app's.")
+        print "Token's client ID does not match app's."
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -128,28 +128,28 @@ def gconnect():
     output += login_session['username']
     output += '!</h1>'
     flash("you are now logged in to the Catalog application")
-    print ("done!")
+    print "done!"
     return output
 
 
 # User Helper Functions
 def createUser(login_session):
-    newUser = User(name=login_session['username'], email=login_session
+    newUser = Users(name=login_session['username'], email=login_session
                    ['email'], picture=login_session['picture'])
     session.add(newUser)
     session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one()
+    user = session.query(Users).filter_by(email=login_session['email']).one()
     return user.id
 
 
 def getUserInfo(user_id):
-    user = session.query(User).filter(User.id.ilike(user_id)).one()
+    user = session.query(Users).filter(Users.id.ilike(user_id)).one()
     return user
 
 
 def getUserID(email):
     try:
-        user = session.query(User).filter(User.email.ilike(email)).one()
+        user = session.query(Users).filter(Users.email.ilike(email)).one()
         return user.id
     except:
         return None
@@ -160,20 +160,20 @@ def getUserID(email):
 def gdisconnect():
     access_token = login_session.get('access_token')
     if access_token is None:
-        print ('Access Token is None')
+        print 'Access Token is None'
         response = make_response(json.dumps('Current user not connected.'),
                                  401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    print ('In gdisconnect access token is %s', access_token)
-    print ('User name is: ')
-    print (login_session['username'])
+    print 'In gdisconnect access token is %s', access_token
+    print 'User name is: '
+    print login_session['username']
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' %\
           login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    print ('result is ')
-    print (result)
+    print 'result is '
+    print result
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
