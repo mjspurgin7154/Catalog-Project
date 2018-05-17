@@ -89,7 +89,7 @@ def gconnect():
     if result['issued_to'] != CLIENT_ID:
         response = make_response(
             json.dumps("Token's client ID does not match app's."), 401)
-        print "Token's client ID does not match app's."
+        print ("Token's client ID does not match app's.")
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -128,14 +128,14 @@ def gconnect():
     output += login_session['username']
     output += '!</h1>'
     flash("you are now logged in to the Catalog application")
-    print "done!"
+    print ("done!")
     return output
 
 
 # User Helper Functions
 def createUser(login_session):
     newUser = Users(name=login_session['username'], email=login_session
-                   ['email'], picture=login_session['picture'])
+                    ['email'], picture=login_session['picture'])
     session.add(newUser)
     session.commit()
     user = session.query(Users).filter_by(email=login_session['email']).one()
@@ -160,20 +160,20 @@ def getUserID(email):
 def gdisconnect():
     access_token = login_session.get('access_token')
     if access_token is None:
-        print 'Access Token is None'
+        print ('Access Token is None')
         response = make_response(json.dumps('Current user not connected.'),
                                  401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
+    print ('In gdisconnect access token is %s', access_token)
+    print ('User name is: ')
+    print (login_session['username'])
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' %\
           login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    print 'result is '
-    print result
+    print ('result is ')
+    print (result)
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
@@ -217,7 +217,8 @@ def categoryList():
 @app.route('/catalog/<cat_name>/')
 def catItemList(cat_name):
     cats = session.query(Category).all()
-    category = session.query(Category).filter(Category.name.ilike(cat_name)).one()
+    category = session.query(Category).filter(Category.name.ilike
+                                              (cat_name)).one()
     items = session.query(Item).filter_by(cat_id=category.id)
     count = items.count()
     return render_template('items.html', cats=cats, category=category,
@@ -266,7 +267,10 @@ def deleteItem(cat_name, item_name):
         return redirect('/catalog/login')
     itemToDelete = session.query(Item).filter(Item.name.ilike(item_name)).one()
     if itemToDelete.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are not authorized to delete this category item.  Please create your own category item in order to delete.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('You are not authorized to\
+                delete this category item.  Please create your own category\
+                item in order to delete.');}</script><body onload='myFunction()\
+                ''>"
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
@@ -285,7 +289,9 @@ def editItem(cat_name, item_name):
         return redirect('/catalog/login')
     editedItem = session.query(Item).filter(Item.name.ilike(item_name)).one()
     if editedItem.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('Your are not authorized to edit this category item.  Please create your own category item in order to edit.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('Your are not authorized\
+        to edit this category item.  Please create your own category item in\
+        order to edit.');}</script><body onload='myFunction()''>"
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
